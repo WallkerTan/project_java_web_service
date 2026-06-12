@@ -22,7 +22,7 @@ public class UserMapper {
         if (user == null)
             return null;
 
-        return UserRespon.builder().id(user.getId()).userName(user.getUsername())
+        return UserRespon.builder().id(user.getId()).userName(user.getUserName())
                 .email(user.getEmail()).password(user.getPassword()).createAt(user.getCreateAt())
                 .updateAt(user.getUpdateAt()).role(user.getRole()).build();
     }

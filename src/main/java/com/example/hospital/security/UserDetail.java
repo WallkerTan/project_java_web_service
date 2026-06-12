@@ -10,14 +10,14 @@ import com.example.hospital.model.entity.User;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class UserDeltail implements UserDetails {
+public class UserDetail implements UserDetails {
 
     private final User user;
 
     // xác định quyền hạn user
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(user.getRole().name().toString()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name().toString()));
     }
 
     @Override
@@ -27,7 +27,7 @@ public class UserDeltail implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.getUserName();
     }
 
 }

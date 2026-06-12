@@ -1,0 +1,2 @@
+--tạo bảng
+--insert dữ liệu

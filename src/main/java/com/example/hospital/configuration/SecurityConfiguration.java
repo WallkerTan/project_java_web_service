@@ -41,9 +41,9 @@ public class SecurityConfiguration {
 
                         .requestMatchers("/hospital/admin/**").hasRole("ADMIN")
                         .requestMatchers("/hospital/doctor/**").hasRole("DOCTOR")
-                        .requestMatchers("/hospital/patient/**").hasRole("PATIENT").anyRequest()
-
-                        .authenticated())
+                        .requestMatchers("/hospital/patient/**").hasRole("PATIENT")
+                        .anyRequest().authenticated())
+                        
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(unauthorizedEntryPoint)
                         .accessDeniedHandler(forbiddenEntryPoint))

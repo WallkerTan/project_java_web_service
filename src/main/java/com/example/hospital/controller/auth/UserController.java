@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("hospital/user")
+@RequestMapping("hospital/patient")
 @RequiredArgsConstructor
 public class UserController {
 

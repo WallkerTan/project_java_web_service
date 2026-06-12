@@ -1,6 +1,7 @@
 package com.example.hospital.model.dto.respon;
 
 import java.time.LocalDateTime;
+import com.example.hospital.model.entity.RefreshToken;
 import com.example.hospital.model.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -20,8 +21,6 @@ public class UserRespon {
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
     private UserRole role;
-    @JsonIgnore
     private String accessToken;
-    @JsonIgnore
-    private String refreshToken;
+    private RefreshToken refreshToken;
 }

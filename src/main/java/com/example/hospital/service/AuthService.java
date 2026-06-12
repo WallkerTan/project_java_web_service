@@ -10,7 +10,10 @@ public interface AuthService {
     UserRespon login(LoginRequest request);
 
     // Đăng ký — trả info user vừa tạo
-    UserRespon register(UserRequest request);
+    UserRespon registerPatient(UserRequest request);
+
+    // Đăng ký — trả info user vừa tạo
+    UserRespon registerDoctor(UserRequest request);
 
     // Xoay vòng token — trả accessToken mới
     UserRespon refreshToken(String refreshToken);
@@ -23,4 +26,5 @@ public interface AuthService {
 
     // Thu hồi token — Admin khóa tài khoản
     void revokeToken(Long userId);
+    void initData();
 }

@@ -18,5 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class AdminController {
 
     private final UserServiceImpl uImpl;
-
+    //thêm bs
+    //duyet lich kham
+    //xoa bs
 }

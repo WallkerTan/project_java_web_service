@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class User implements UserDetails {
+public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,6 +43,7 @@ public class User implements UserDetails {
     private LocalDateTime createAt;
     @UpdateTimestamp
     private LocalDateTime updateAt;
+
 
 
     private UserRole role = UserRole.PATIENT;
@@ -59,19 +60,13 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Appoinment> doctorAppoinment = new ArrayList<>();
 
+    //1 người dùng có thể có nhiều token hết hạn
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<TokenBlacklist> tokenBlacklists = new ArrayList<>();
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
-    }
-
-    @Override
-    public String getUsername() {
-        return this.getUsername();
-    }
-
+    //1 người dùng có thể có nhiều rf token
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<RefreshToken> refreshTokens = new ArrayList<>();
 }
