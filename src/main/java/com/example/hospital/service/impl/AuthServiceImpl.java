@@ -106,9 +106,10 @@ public class AuthServiceImpl implements AuthService {
         UserDetail userDetail = new UserDetail(user);
 
         // sinh access token mới, giữ nguyên refresh token cũ
-        return UserRespon.builder().userName(user.getUserName())
-                .accessToken(jwtUtil.generateAccessToken(userDetail))
-                .refreshToken(refreshTokenService.createRefreshToken2(user, token)).build();
+        RefreshToken newRefreshToken = refreshTokenService.createRefreshToken2(user, token);
+        return UserRespon.builder().accessToken(jwtUtil.generateAccessToken(userDetail))
+                .refreshToken(newRefreshToken) // Lấy string token
+                .build();
     }
 
     @Override

@@ -27,14 +27,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserRespon findByUsername(String username) {
-        return uMapper.toRespon(uRepository.findByUserName(username).orElse(null));
+    public UserRespon findByUsername(String username, UserRole role) {
+        return uMapper.toRespon(uRepository.findByUserNameAndRole(username, role).orElse(null));
     }
-
+    public User getUser(String Usernaem){
+        return uRepository.findByUserName(Usernaem).orElse(null);
+    }
     @Override
-    public Page<UserRespon> findAll(Integer page, Integer size) {
+    public Page<UserRespon> findAll(Integer page, Integer size, UserRole role) {
         Pageable pageable = PageRequest.of(page, size);
-        return uRepository.findByStatus(UserStatus.ACTIVE, pageable).map(uMapper::toRespon);
+        return uRepository.findByStatusAndRole(UserStatus.ACTIVE, pageable, role).map(uMapper::toRespon);
     }
 
     @Override
@@ -73,7 +75,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserRespon> search(String keyword, Integer page, Integer pageSize) {
+    public Page<UserRespon> search(String keyword, Integer page, Integer pageSize, UserRole role) {
         Pageable pageable = PageRequest.of(page, pageSize);
         return uRepository.searchByKeyword(keyword, pageable).map(uMapper::toRespon);
     }

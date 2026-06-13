@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -37,18 +36,6 @@ public class GlobalException {
                 .forEach(err -> errors.put(err.getField(), err.getDefaultMessage()));
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
-
-    // Loại 3 — bắt lỗi Spring Security (role không đủ quyền)
-    // @ExceptionHandler(AccessDeniedException.class)
-    // public ResponseEntity<Map<String, String>> handleAccessDenied(AccessDeniedException e) {
-    //     log.warn("Access denied: {}", e.getMessage());
-
-    //     Map<String, String> res = new HashMap<>();
-    //     res.put("error", "Forbidden");
-    //     res.put("message", "Quyền hạn không đủ để truy cập, vui lòng đăng nhập lại");
-
-    //     return new ResponseEntity<>(res, HttpStatus.FORBIDDEN); // 403
-    // }
 
     // Loại 4 — lưới cuối, bắt TẤT CẢ còn lại
     @ExceptionHandler(Exception.class)

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import com.example.hospital.model.enums.AppoinmentStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,11 +25,11 @@ import lombok.NoArgsConstructor;
 @Builder
 // 1 người dùng có thể có nhiều appoinment
 public class Appoinment {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private AppoinmentStatus status = AppoinmentStatus.PENDING;
     private LocalDateTime startTime;
     private String endTime;
 

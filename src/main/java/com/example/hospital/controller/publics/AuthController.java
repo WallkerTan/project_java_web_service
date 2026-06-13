@@ -20,13 +20,12 @@ import com.example.hospital.service.impl.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("hospital/auth")
+@RequestMapping("api/v1/auth")
 public class AuthController {
         private final UserServiceImpl uImpl;
         private final AppoinmentServiceImpl aImpl;

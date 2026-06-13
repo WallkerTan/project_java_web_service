@@ -44,16 +44,6 @@ public class JwtUtil {
                 .compact();// nén thành chuoif jwt
     }
 
-    // VALIDATE TOKEN
-    /*
-     * Kiểm tra token có hợp lệ không
-     * 
-     * @param token - JWT cần kiểm tra
-     * 
-     * @param userDetails - thông tin user lấy từ database
-     * 
-     * @return true nếu token hợp lệ, false nếu không
-     */
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
 

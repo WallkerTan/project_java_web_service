@@ -82,4 +82,14 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     public void deleteExpiredTokens() {
         refreshTokenRepository.deleteAllByExpiryDateBefore(Instant.now());
     }
+
+    @Override
+    public List<RefreshToken> findAllByUserId(Long userId) {
+        return refreshTokenRepository.findAllByUserId(userId);
+    }
+
+    @Override
+    public void deleteAllByExpiryDateBefore(Instant now) {
+        refreshTokenRepository.deleteAllByExpiryDateBefore(now);
+    }
 }

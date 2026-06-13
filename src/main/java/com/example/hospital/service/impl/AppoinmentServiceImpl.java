@@ -4,11 +4,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import com.example.hospital.exception.ProductNotFoundException;
 import com.example.hospital.mapper.AppoinmentMapper;
 import com.example.hospital.model.dto.request.AppoinmentRequest;
 import com.example.hospital.model.dto.respon.AppoinmentRespon;
 import com.example.hospital.model.entity.Appoinment;
 import com.example.hospital.model.entity.User;
+import com.example.hospital.model.enums.AppoinmentStatus;
 import com.example.hospital.repository.AppoinmentRepository;
 import com.example.hospital.repository.UserRepository;
 import com.example.hospital.service.AppoinmentService;
@@ -33,7 +35,7 @@ public class AppoinmentServiceImpl implements AppoinmentService {
     public Page<AppoinmentRespon> findByDoctor(Long doctorId, Integer page, Integer pageSize) {
         // TODO Auto-generated method stub
         Pageable pageable = PageRequest.of(page, pageSize);
-        return aRepository.findByPatientId(doctorId, pageable).map(aMapper::toRespon);
+        return aRepository.findByDoctorId(doctorId, pageable).map(aMapper::toRespon);
     }
 
     @Override
@@ -69,6 +71,7 @@ public class AppoinmentServiceImpl implements AppoinmentService {
         if (a == null)
             return false;
         a = aMapper.toEntity(request, a);
+        aRepository.save(a);
         return true;
     }
 
@@ -80,6 +83,37 @@ public class AppoinmentServiceImpl implements AppoinmentService {
             return false;
         aRepository.delete(a);
         return true;
+    }
+
+    @Override
+    public AppoinmentStatus nextStatus(Long id) {
+        Appoinment a = aRepository.findById(id).orElse(null);
+        if (a.getStatus() == AppoinmentStatus.PENDING) {
+            a.setStatus(AppoinmentStatus.APPROVED);
+        } else if (a.getStatus() == AppoinmentStatus.APPROVED) {
+            a.setStatus(AppoinmentStatus.REJECTED);
+        } else if (a.getStatus() == AppoinmentStatus.REJECTED) {
+            a.setStatus(AppoinmentStatus.COMPLETED);
+        } else if (a.getStatus() == AppoinmentStatus.COMPLETED) {
+            a.setStatus(AppoinmentStatus.CANCELLED);
+        }
+        aRepository.save(a);
+        return a.getStatus();
+
+    }
+
+    @Override
+    public AppoinmentStatus setStatus(Long id, AppoinmentStatus appoinmentStatus) {
+        Appoinment a = aRepository.findById(id).orElse(null);
+        a.setStatus(appoinmentStatus);
+        aRepository.save(a);
+        return a.getStatus();
+    }
+
+    @Override
+    public Page<AppoinmentRespon> findByPatientId(Long id, Integer page, Integer pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return aRepository.findByPatientId(id, pageable).map(aMapper::toRespon);
     }
 
 }

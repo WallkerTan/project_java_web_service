@@ -4,6 +4,7 @@ import org.springframework.boot.data.autoconfigure.web.DataWebProperties.Pageabl
 import org.springframework.data.domain.Page;
 import com.example.hospital.model.dto.request.UserRequest;
 import com.example.hospital.model.dto.respon.UserRespon;
+import com.example.hospital.model.entity.User;
 import com.example.hospital.model.enums.UserRole;
 import com.example.hospital.model.enums.UserStatus;
 
@@ -13,12 +14,12 @@ public interface UserService {
     UserRespon findById(Long id);
 
     // Lấy theo tên
-    UserRespon findByUsername(String username);
+    UserRespon findByUsername(String username, UserRole role);
 
     // Lấy tất cả + phân trang
-    Page<UserRespon> findAll(Integer page, Integer pageSize);
+    Page<UserRespon> findAll(Integer page, Integer pageSize, UserRole role);
 
-    // Thêm
+    // Thêm bệnh nhân
     Boolean create(UserRequest request);
 
     // Thêm bs
@@ -34,5 +35,5 @@ public interface UserService {
     UserStatus delete(Long id);
 
     // Tìm kiếm theo tên + phân trang
-    Page<UserRespon> search(String keyword, Integer page, Integer pageSize);
+    Page<UserRespon> search(String keyword, Integer page, Integer pageSize, UserRole role);
 }

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import com.example.hospital.model.dto.respon.AppoinmentRespon;
 import com.example.hospital.model.entity.Appoinment;
 import com.example.hospital.model.enums.UserStatus;
 
@@ -19,6 +20,7 @@ public interface AppoinmentRepository extends JpaRepository<Appoinment,Long> {
 
     //tìm theo id
     Optional<Appoinment> findById(Long id);
+
 
     // Tìm theo bác sĩ + phân trang
     Page<Appoinment> findByDoctorId(Long doctorId, Pageable pageable);

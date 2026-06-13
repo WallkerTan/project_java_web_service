@@ -1,6 +1,7 @@
 package com.example.hospital.repository;
 
 import com.example.hospital.model.entity.User;
+import com.example.hospital.model.enums.UserRole;
 import com.example.hospital.model.enums.UserStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Tìm theo username
     Optional<User> findByUserName(String userName);
 
+    Optional<User> findByUserNameAndRole(String userName,UserRole role);
+
     // Tìm theo email (để kiểm tra trùng khi tạo mới)
     Optional<User> findByEmail(String email);
 
@@ -29,7 +32,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUserNameAndStatus(String userName, UserStatus status);
 
     // Tìm tất cả theo status + phân trang
-    Page<User> findByStatus(UserStatus status, Pageable pageable);
+    Page<User> findByStatusAndRole(UserStatus status, Pageable pageable,UserRole role);
 
     // Tìm kiếm theo tên (chứa keyword) + phân trang
     @Query("SELECT u FROM User u WHERE u.userName LIKE %:keyword%")

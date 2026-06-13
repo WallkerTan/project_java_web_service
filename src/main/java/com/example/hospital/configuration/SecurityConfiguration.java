@@ -26,43 +26,47 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    private final UserDetailsService userDetailsService;
-    private final JwtAuthFilter jwtAuthFilter;
-    private final PasswordEncoder passwordEncoder;
-    private final UnauthorizedEntryPoint unauthorizedEntryPoint;//401
-    private final ForbiddenEntryPoint forbiddenEntryPoint;//403
+        private final UserDetailsService userDetailsService;
+        private final JwtAuthFilter jwtAuthFilter;
+        private final PasswordEncoder passwordEncoder;
+        private final UnauthorizedEntryPoint unauthorizedEntryPoint;// 401
+        private final ForbiddenEntryPoint forbiddenEntryPoint;// 403
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-                .sessionManagement(
-                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/hospital/auth/**").permitAll()
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http.csrf(csrf -> csrf.disable())
+                                .sessionManagement(session -> session.sessionCreationPolicy(
+                                                SessionCreationPolicy.STATELESS))
+                                .authorizeHttpRequests(auth -> auth
+                                                .requestMatchers("/api/v1/auth/**").permitAll()
+                                                .requestMatchers("/api/v1/admin/**")
+                                                .hasRole("ADMIN")
+                                                .requestMatchers("/api/v1/doctor/**")
+                                                .hasRole("DOCTOR")
+                                                .requestMatchers("/api/v1/patient/**")
+                                                .hasRole("PATIENT").anyRequest().authenticated())
 
-                        .requestMatchers("/hospital/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/hospital/doctor/**").hasRole("DOCTOR")
-                        .requestMatchers("/hospital/patient/**").hasRole("PATIENT")
-                        .anyRequest().authenticated())
-                        
-                .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint(unauthorizedEntryPoint)
-                        .accessDeniedHandler(forbiddenEntryPoint))
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                                .exceptionHandling(ex -> ex
+                                                .authenticationEntryPoint(unauthorizedEntryPoint)
+                                                .accessDeniedHandler(forbiddenEntryPoint))
+                                .authenticationProvider(authenticationProvider())
+                                .addFilterBefore(jwtAuthFilter,
+                                                UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+                return http.build();
+        }
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder);
-        return provider;
-    }
+        @Bean
+        public AuthenticationProvider authenticationProvider() {
+                DaoAuthenticationProvider provider =
+                                new DaoAuthenticationProvider(userDetailsService);
+                provider.setPasswordEncoder(passwordEncoder);
+                return provider;
+        }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
-            throws Exception {
-        return config.getAuthenticationManager();
-    }
+        @Bean
+        public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
+                        throws Exception {
+                return config.getAuthenticationManager();
+        }
 }

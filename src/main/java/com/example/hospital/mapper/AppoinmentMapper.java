@@ -33,7 +33,8 @@ public class AppoinmentMapper {
     public AppoinmentRespon toRespon(Appoinment a) {
         return AppoinmentRespon.builder().startTime(a.getStartTime()).endTime(a.getEndTime())
                 .symptom(a.getSymptom()).diagnosis(a.getDiagnosis()).createAt(a.getCreateAt())
-                .upDateAt(a.getUpDateAt()).doctor_id(a.getDoctor().getId()).patient_id(a.getPatient().getId()).build();
+                .upDateAt(a.getUpDateAt()).status(a.getStatus()).doctor_id(a.getDoctor().getId())
+                .patient_id(a.getPatient().getId()).build();
     }
 
 
