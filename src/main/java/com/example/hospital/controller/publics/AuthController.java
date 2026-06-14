@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.hospital.model.dto.request.LoginRequest;
+import com.example.hospital.model.dto.request.PasswordRequest;
 import com.example.hospital.model.dto.request.UserRequest;
 import com.example.hospital.model.dto.respon.ApiDataRespon;
 import com.example.hospital.model.dto.respon.UserRespon;
@@ -106,10 +107,10 @@ public class AuthController {
 
         @PostMapping("/transPassword/{id}")
         public ResponseEntity<ApiDataRespon<Boolean>> tranPass(
-                        @Valid @RequestBody UserRequest userRequest, @PathVariable Long id) {
-                return new ResponseEntity<>(
-                                new ApiDataRespon<>(true, "doi mk thanh cong",
-                                                uImpl.update(id, userRequest), HttpStatus.OK),
+                        @Valid @RequestBody PasswordRequest passwordRequest,
+                        @PathVariable Long id) {
+                return new ResponseEntity<>(new ApiDataRespon<>(true, "doi mk thanh cong",
+                                authServiceImpl.TransPassword(passwordRequest, id), HttpStatus.OK),
                                 HttpStatus.OK);
         }
 }

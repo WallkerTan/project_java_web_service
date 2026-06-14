@@ -1,6 +1,7 @@
 package com.example.hospital.service;
 
 import com.example.hospital.model.dto.request.LoginRequest;
+import com.example.hospital.model.dto.request.PasswordRequest;
 import com.example.hospital.model.dto.request.UserRequest;
 import com.example.hospital.model.dto.respon.UserRespon;
 
@@ -26,5 +27,8 @@ public interface AuthService {
 
     // Thu hồi token — Admin khóa tài khoản
     void revokeToken(Long userId);
+
     void initData();
+
+    Boolean TransPassword(PasswordRequest passwordRequest, Long id);
 }

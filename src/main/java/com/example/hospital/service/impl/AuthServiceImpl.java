@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.hospital.mapper.UserMapper;
 import com.example.hospital.model.dto.request.LoginRequest;
+import com.example.hospital.model.dto.request.PasswordRequest;
 import com.example.hospital.model.dto.request.UserRequest;
 import com.example.hospital.model.dto.respon.UserRespon;
 import com.example.hospital.model.entity.Appoinment;
@@ -178,5 +179,20 @@ public class AuthServiceImpl implements AuthService {
         }
 
         System.out.println(">>> Init data successfully");
+    }
+
+    @Override
+    public Boolean TransPassword(PasswordRequest passwordRequest, Long id) {
+        User u = userRepository.findById(id).orElse(null);
+        if (u == null) {
+            return false;
+        }
+        if (u.getPassword() != passwordRequest.getPassword()) {
+            return false;
+        }
+
+        String password = passwordEncoder.encode(passwordRequest.getNewPassword());
+        u.setPassword(password);
+        return true;
     }
 }
