@@ -20,6 +20,7 @@ import com.example.hospital.service.impl.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 
@@ -103,4 +104,12 @@ public class AuthController {
                                 HttpStatus.OK);
         }
 
+        @PostMapping("/transPassword/{id}")
+        public ResponseEntity<ApiDataRespon<Boolean>> tranPass(
+                        @Valid @RequestBody UserRequest userRequest, @PathVariable Long id) {
+                return new ResponseEntity<>(
+                                new ApiDataRespon<>(true, "doi mk thanh cong",
+                                                uImpl.update(id, userRequest), HttpStatus.OK),
+                                HttpStatus.OK);
+        }
 }
